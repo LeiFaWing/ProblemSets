@@ -39,10 +39,10 @@ public class AdvancedDraw {
 			Window.out.color("black");
 			Window.out.circle(x, Window.height()/2, 50);
 			
-			if (x < Window.width()) {
+			if (x == 0) {
 				right = true;
 			}
-			else if (x >= Window.width()) {
+			else if (x == Window.width()) {
 				right = false;
 			}
 			
