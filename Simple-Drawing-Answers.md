@@ -41,7 +41,7 @@ public class AdvancedDraw {
 			if (x < Window.width()) {
 				x += 10;
 			}
-			else if (x >= Window.width() {
+			else if (x >= Window.width()) {
 				x -= 10;
 			}
 			
