@@ -4,7 +4,7 @@ Use the following code to answer questions 1 to 3 :
 
 ```java
 public class AdvancedDraw {
-  
+
   public static void main (String[] args) {
     int x = -50;
     
