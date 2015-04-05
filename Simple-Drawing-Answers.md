@@ -32,6 +32,7 @@ public class AdvancedDraw {
 public class AdvancedDraw {
 	public static void main(String[] args) {
 		int x = -50;
+		boolean right = true;
 		
 		while (true) {
 			Window.out.background("white");
@@ -39,9 +40,16 @@ public class AdvancedDraw {
 			Window.out.circle(x, Window.height()/2, 50);
 			
 			if (x < Window.width()) {
-				x += 10;
+				right = true;
 			}
 			else if (x >= Window.width()) {
+				right = false;
+			}
+			
+			if (right) {
+				x += 10;
+			}
+			else {
 				x -= 10;
 			}
 			
