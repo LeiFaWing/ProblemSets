@@ -6,24 +6,22 @@
 
 ```java
 public class AdvancedDraw {
-  public static void main (String[] args) {
-    
-    int x = -50;
-    
-    while (true)
-    {
-	Window.out.background("white");
-	Window.out.color("black");
-	Window.out.circle(x, Window.height()/2, 50);
-	x += 10;
-	
-	if (x > Window.width()) {
-	x = -50;
+	public static void main(String[] args) {
+		
+		int x = -50;
+		
+		while (true) {
+			Window.out.background("white");
+			Window.out.color("black");
+			Window.out.circle(x, Window.height()/2, 50);
+			x += 10;
+			
+			if (x > Window.width()) {
+				x = -50;
+			}
+			
+			Window.frame();
+		}
 	}
-	
-	Window.frame();
-    }
-    
-  }
 }
 ```
