@@ -12,13 +12,13 @@ public class AdvancedDraw {
     
     while (true)
     {
-      	Window.out.background("white");
+	Window.out.background("white");
 	Window.out.color("black");
 	Window.out.circle(x, Window.height()/2, 50);
 	x += 10;
 	
 	if (x > Window.width()) {
-		x = -50;
+	x = -50;
 	}
 	
 	Window.frame();
