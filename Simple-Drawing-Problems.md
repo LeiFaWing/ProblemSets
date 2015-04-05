@@ -28,3 +28,21 @@ public class AdvancedDraw {
 
 3.) Modify the code above so that the circle bounces back and forth between the edges
 
+Use the following code to answer question 4
+
+```java
+public class ClickAndDraw {
+  public static void main (String[] args) {
+    Window.out.background("white");
+    
+    while(true) {
+      if (Window.mouse.clicked()) {
+        Window.out.color("red");
+        Window.out.circle(Window.mouse.getX(), Window.mouse.getY(), 25);
+      }
+    }
+  }
+}
+```
+
+4. Modify the code above so that you can only draw within the black box.
