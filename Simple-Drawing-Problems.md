@@ -22,4 +22,4 @@ public class AdvancedDraw {
 
 2.) Modify the code so that the circle moves back to its starting position after it leaves the window.
 
-3.) Modify the code so that the circle bounces off edges
+3.) Modify the code so that the circle bounces off the edges of the window.
