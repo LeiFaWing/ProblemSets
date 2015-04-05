@@ -26,4 +26,3 @@ public class AdvancedDraw {
 
 3.) Modify the code so that the circle bounces off the edges of the window.
 
-4.) Modify the code so that the circle moves in a circular motion
