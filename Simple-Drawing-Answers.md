@@ -36,7 +36,7 @@ public class AdvancedDraw {
 		while (true) {
 			Window.out.background("white");
 			Window.out.color("black");
-			Window.out.circle(x, Window.height()/2, 50;
+			Window.out.circle(x, Window.height()/2, 50);
 			
 			if (x < Window.width()) {
 				x += 10;
