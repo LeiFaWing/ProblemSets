@@ -34,6 +34,11 @@ Use the following code to answer question 4
 public class ClickAndDraw {
   public static void main (String[] args) {
     Window.out.background("white");
+    Window.out.color("black");
+		Window.out.rectangle(250, 100, 250, 25);
+		Window.out.rectangle(250, 400, 250, 25);
+		Window.out.rectangle(115, 250, 25, 325);
+		Window.out.rectangle(385, 250, 25, 325);
     
     while(true) {
       if (Window.mouse.clicked()) {
@@ -44,5 +49,9 @@ public class ClickAndDraw {
   }
 }
 ```
+
+What program above is doing:
+- A white square whith a black border is drawn in the middle of the screen.
+- Holding down the left click on the mouse will draw a red circle where your cursor is located
 
 4. Modify the code above so that you can only draw within the black box.
