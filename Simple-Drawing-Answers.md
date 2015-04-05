@@ -58,3 +58,30 @@ public class AdvancedDraw {
 	}
 }
 ```
+
+4.)
+
+```java
+public class ClickAndDraw {
+	public static void main (String[] args) {
+		Window.out.background("white");
+		
+		Window.out.color("black");
+		Window.out.rectangle(250, 100, 250, 25);
+		Window.out.rectangle(250, 400, 250, 25);
+		Window.out.rectangle(115, 250, 25, 325);
+		Window.out.rectangle(385, 250, 25, 325);
+		
+		while(true) {
+			if (Window.mouse.clicked()) {
+				if (Window.mouse.getX() < 350 && Window.mouse.getX() > 150 && 
+					Window.mouse.getY() < 365 && Window.mouse.getY() > 135) {
+					
+					Window.out.color("red");
+					Window.out.circle(Window.mouse.getX(), Window.mouse.getY(), 25);
+				}
+			}
+		}
+	}
+}
+```
