@@ -12,6 +12,8 @@ public class AdvancedDraw {
       Window.out.color("black");
       Window.out.circle(x, Window.height()/2, 50);
       x += 10;
+      
+      Window.frame();
     }
     
   }
