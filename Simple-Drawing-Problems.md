@@ -54,4 +54,6 @@ What program above is doing:
 - A white square whith a black border is drawn in the middle of the screen.
 - Holding down the left click on the mouse will draw a red circle where your cursor is located
 
-4. Modify the code above so that you can only draw within the black box.
+
+
+4.) Modify the code above so that you can only draw within the black box.
