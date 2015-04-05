@@ -1,5 +1,7 @@
 ## Drawing Problem Set
 
+## Part 1
+
 Use the following code to answer questions 1 to 3 :
 
 ```java
@@ -27,6 +29,8 @@ public class AdvancedDraw {
 2.) Modify the code above so that the circle moves back to its starting position after it leaves the window.
 
 3.) Modify the code above so that the circle bounces back and forth between the edges
+
+## Part 2
 
 Use the following code to answer question 4
 
