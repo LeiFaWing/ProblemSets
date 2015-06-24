@@ -16,6 +16,12 @@ public class SpaceInvaders {
 		
 		// boolean for player state
 		boolean alive = true;
+		boolean start = false;
+		boolean gameover = false;
+		int lives = 3;
+		int score = 0;
+		int highscore = 0;
+		int fontsize = 40;
 		
 		// randomize x and y of stars
 		for (int i = 0; i < starx.length; i++) {
@@ -35,13 +41,45 @@ public class SpaceInvaders {
 		// arraylist of enemy bullets
 		ArrayList<EnemyBullet> ebs = new ArrayList<EnemyBullet>();
 		
+		int y = 50;
+		int x = 0;
 		// add enemies to enemy list
-		for (int i = 0; i < 5; i++) {
-			enemies.add(new Enemy());
+		for (int i = 0; i < 50; i++) {
+			if (i % 10 == 0 && i != 0) {
+				y += 50;
+				x = 0;
+			}
+			enemies.add(new Enemy(x * 25 + 25, y));
+			x++;
 		}
 		
 		while(true) {
+			
+			while (start == false) {
+				drawBackground();
+				fontsize = 40;
+				Window.out.font("arial", fontsize);
+				Window.out.color("Blue");
+				Window.out.print("Space Invader", Window.width() / 2 - fontsize * 3 
+						, Window.height() / 3);
+				fontsize = 25;
+				Window.out.fontSize(fontsize);
+				Window.out.color("Blue");
+				Window.out.print("Press fire to start", Window.width() / 2 - fontsize * 4
+						, Window.height() / 2);
+				
+				if (Window.key.pressed("space")) {
+					start = !start;
+				}
+				
+				Window.frame();
+			}
+			
 			drawBackground();
+			fontsize = 20;
+			Window.out.font("arial", fontsize);
+			Window.out.color(0, 255, 0);
+			Window.out.print("Score: " + score, 20, 40);
 			p.draw();
 			p.move();
 			
@@ -88,7 +126,10 @@ public class SpaceInvaders {
 				if (ebs.get(i).checkCollision(p)) {
 					ebs.remove(i);
 					i--;
-					alive = false;
+					lives--;
+					if (lives <= 0) {
+						alive = false;
+					}
 				}
 			}
 			
@@ -99,9 +140,98 @@ public class SpaceInvaders {
 						pbs.remove(i);
 						enemies.remove(j);
 						i--;
+						score++;
 						break enemyLoop;
 					}
 				}
+			}
+			
+			// check player bullet collision with enemy bullet
+			for (int i = 0; i < pbs.size(); i++) {
+				for (int j = 0; j < ebs.size(); j++) {
+					if (pbs.get(i).checkCollision(ebs.get(j))) {
+						pbs.remove(i);
+						ebs.remove(j);
+						i--;
+						break;
+					}
+				}
+			}
+			
+			if (alive == false) {
+				if (score > highscore) {
+					highscore = score;
+				}
+				gameover = true;
+			}
+			
+			// show win screen after enemies are destroyed
+			if (enemies.size() <= 0) {
+				//drawBackground();
+				fontsize = 50;
+				Window.out.font("arial", fontsize);
+				Window.out.color("purple");
+				Window.out.print("You Win", Window.width() / 2 - fontsize * 3 
+						, Window.height() / 3);
+				fontsize = 40;
+				Window.out.fontSize(fontsize);
+				Window.out.print("Score: " + score, Window.width() / 2 - fontsize * 3 
+						, Window.height() / 2);
+				Window.frame(3000);
+				pbs.clear();
+				ebs.clear();
+				enemies.clear();
+				y = 50;
+				x = 0;
+				// add enemies to enemy list
+				for (int i = 0; i < 50; i++) {
+					if (i % 10 == 0 && i != 0) {
+						y += 50;
+						x = 0;
+					}
+					enemies.add(new Enemy(x * 25 + 25, y));
+					x++;
+				}
+				lives = 3;
+				alive = true;
+				score = 0;
+				p.reset();
+				start = !start;
+			}
+			
+			// show gameover screen when no lives are left
+			if (gameover == true) {
+				Window.out.color("red");
+				fontsize = 40;
+				Window.out.font("arial", fontsize);
+				Window.out.print("Game Over", Window.width() / 2 - fontsize * 3
+						, Window.height() / 3);
+				fontsize = 30;
+				Window.out.fontSize(fontsize);
+				Window.out.print("Score: " + score, Window.width() / 2 - fontsize * 3 
+						, Window.height() / 2);
+				Window.frame(3000);
+				pbs.clear();
+				ebs.clear();
+				enemies.clear();
+				// add enemies to enemy list
+				y = 50;
+				x = 0;
+				// add enemies to enemy list
+				for (int i = 0; i < 50; i++) {
+					if (i % 10 == 0 && i != 0) {
+						y += 50;
+						x = 0;
+					}
+					enemies.add(new Enemy(x * 25 + 25, y));
+					x++;
+				}
+				lives = 3;
+				alive = true;
+				score = 0;
+				p.reset();
+				gameover = !gameover;
+				start = !start;
 			}
 			
 			Window.frame();
