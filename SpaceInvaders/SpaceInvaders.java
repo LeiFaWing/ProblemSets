@@ -1,5 +1,7 @@
 package SpaceInvaders;
 
+import java.util.ArrayList;
+
 import apcs.Window;
 
 public class SpaceInvaders {
@@ -20,10 +22,27 @@ public class SpaceInvaders {
 		// create player object
 		Player p = new Player();
 		
+		// arraylist of player bullets
+		ArrayList<PlayerBullet> pbs = new ArrayList<PlayerBullet>();
+		
 		while(true) {
 			drawBackground();
 			p.draw();
 			p.move();
+			
+			if (p.shoot()) {
+				pbs.add(new PlayerBullet(p.x, p.y));
+			}
+			
+			for (int i = 0; i < pbs.size(); i++) {
+				pbs.get(i).draw();
+				pbs.get(i).move();
+				
+				if (pbs.get(i).y < -pbs.get(i).height / 2) {
+					pbs.remove(i);
+					i--;
+				}
+			}
 			
 			Window.frame();
 		}
