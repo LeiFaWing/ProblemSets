@@ -27,8 +27,8 @@ public class EnemyBullet {
 	}
 	
 	public boolean checkCollision(Player e) {
-		if (Math.abs(x - e.x) <= width / 2 + e.radius / 2 &&
-				Math.abs(y - e.y) <= height / 2 + e.radius / 2) 
+		if (Math.abs(x - e.x) <= width / 2 + e.radius &&
+				Math.abs(y - e.y) <= height / 2 + e.radius) 
 		{
 			return true;
 		}
