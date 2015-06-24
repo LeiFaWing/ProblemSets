@@ -2,14 +2,14 @@ package SpaceInvaders;
 
 import apcs.Window;
 
-public class EnemyBullet {
+public class PlayerBullet {
 	int x;
 	int y;
 	int width;
 	int height;
 	int speed;
 	
-	public EnemyBullet(int x, int y) {
+	public PlayerBullet(int x, int y) {
 		this.x = x;
 		this.y = y;
 		width = 5;
@@ -18,17 +18,17 @@ public class EnemyBullet {
 	}
 	
 	public void draw() {
-		Window.out.color("yellow");
+		Window.out.color("red");
 		Window.out.rectangle(x, y, width, height);
 	}
 	
 	public void move() {
-		y += speed;
+		y -= speed;
 	}
 	
-	public boolean checkCollision(Player e) {
-		if (Math.abs(x - e.x) <= width / 2 + e.radius / 2 &&
-				Math.abs(y - e.y) <= height / 2 + e.radius / 2) 
+	public boolean checkCollision(Enemy e) {
+		if (Math.abs(x - e.x) <= width / 2 + e.side / 2 &&
+				Math.abs(y - e.y) <= height / 2 + e.side / 2) 
 		{
 			return true;
 		}
@@ -36,7 +36,7 @@ public class EnemyBullet {
 		return false;
 	}
 	
-	public boolean checkCollision(PlayerBullet e) {
+	public boolean checkCollision(EnemyBullet e) {
 		if (Math.abs(x - e.x) <= width / 2 + e.width / 2 &&
 				Math.abs(y - e.y) <= height / 2 + e.height / 2) 
 		{
