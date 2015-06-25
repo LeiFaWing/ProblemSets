@@ -68,19 +68,27 @@ public class Player implements Thing{
 
 	@Override
 	public int checkCollision(Thing o) {
-		if (o.isFlag()) {
+		if (o.isFlag() && o.getNumber() != player) {
 			if (Math.abs(x - o.getX()) <= radius + o.getWidth() / 2 &&
 					Math.abs(y - o.getY()) <= radius + o.getHeight() / 2) {
 				return 1;
 			}
 		}
 		else {
-			if (Math.abs(x - o.getX()) <= radius + o.getRadius() &&
-					Math.abs(y - o.getY()) <= radius + o.getRadius()) {
-				return 2;
+			if (player == 1 && x > Window.width() / 2) {
+				if (Math.abs(x - o.getX()) <= radius + o.getRadius() &&
+						Math.abs(y - o.getY()) <= radius + o.getRadius()) {
+					return 2;
+				}
+			}
+			else if (player == 2 && x < Window.width() / 2) {
+				if (Math.abs(x - o.getX()) <= radius + o.getRadius() &&
+						Math.abs(y - o.getY()) <= radius + o.getRadius()) {
+					return 2;
+				}
 			}
 		}
-		
+
 		return 0;
 	}
 
@@ -93,7 +101,14 @@ public class Player implements Thing{
 	@Override
 	public void follow(int x, int y) {
 		// TODO Auto-generated method stub
-
+		if (player == 1) {
+			this.x = 200;
+			this.y = Window.height() / 2;
+		}
+		else {
+			this.x = Window.width() - 200;
+			this.y = Window.height() / 2;
+		}
 	}
 
 	@Override
@@ -124,6 +139,12 @@ public class Player implements Thing{
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int getNumber() {
+		// TODO Auto-generated method stub
+		return player;
 	}
 
 
