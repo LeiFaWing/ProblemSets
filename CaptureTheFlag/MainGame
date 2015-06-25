@@ -21,6 +21,9 @@ public class MainGame {
 					if (t != o && t.checkCollision(o) == 1) {
 						o.follow(t.getX(), t.getY());
 					}
+					if (t != o && t.checkCollision(o) == 2) {
+						t.follow(0, 0);
+					}
 				}
 			}
 			
