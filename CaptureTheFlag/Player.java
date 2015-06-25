@@ -10,66 +10,78 @@ public class Player implements Thing{
 	int radius;
 	int player;
 	int speed;
-	
+
 	public Player(int player) {
 		this.player = player;
 		if (player == 1) {
-			x = 100;
+			x = 200;
 			color = "blue";
 		}
 		else {
-			x = Window.width() - 100;
+			x = Window.width() - 200;
 			color = "red";
 		}
 		y = Window.height() / 2;
 		radius = 20;
 		speed = 7;
 	}
-	
+
 	@Override
 	public void draw() {
 		Window.out.color(color);
 		Window.out.circle(x, y, radius);
-		
+
 	}
 
 	@Override
 	public void move() {
 		if (player == 1) {
-			if (Window.key.pressed("w")) {
+			if (Window.key.pressed("w") && y > radius) {
 				y -= speed;
 			}
-			if (Window.key.pressed("s")) {
+			if (Window.key.pressed("s") && y < Window.height() - radius) {
 				y += speed;
 			}
-			if (Window.key.pressed("a")) {
+			if (Window.key.pressed("a") && x > radius) {
 				x -= speed;
 			}
-			if (Window.key.pressed("d")) {
+			if (Window.key.pressed("d") && x < Window.width() - radius) {
 				x += speed;
 			}
 		}
 		else {
-			if (Window.key.pressed("up")) {
+			if (Window.key.pressed("up") && y > radius) {
 				y -= speed;
 			}
-			if (Window.key.pressed("down")) {
+			if (Window.key.pressed("down") && y < Window.height() - radius) {
 				y += speed;
 			}
-			if (Window.key.pressed("left")) {
+			if (Window.key.pressed("left") && x > radius) {
 				x -= speed;
 			}
-			if (Window.key.pressed("right")) {
+			if (Window.key.pressed("right") && x < Window.width() - radius) {
 				x += speed;
 			}
 		}
-		
+
 	}
 
 	@Override
-	public boolean checkCollision(Thing otherThing) {
-		// TODO Auto-generated method stub
-		return false;
+	public int checkCollision(Thing o) {
+		if (o.isFlag()) {
+			if (Math.abs(x - o.getX()) <= radius + o.getWidth() / 2 &&
+					Math.abs(y - o.getY()) <= radius + o.getHeight() / 2) {
+				return 1;
+			}
+		}
+		else {
+			if (Math.abs(x - o.getX()) <= radius + o.getRadius() &&
+					Math.abs(y - o.getY()) <= radius + o.getRadius()) {
+				return 2;
+			}
+		}
+		
+		return 0;
 	}
 
 	@Override
@@ -79,9 +91,9 @@ public class Player implements Thing{
 	}
 
 	@Override
-	public void follow() {
+	public void follow(int x, int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -113,6 +125,6 @@ public class Player implements Thing{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
+
+
 }
