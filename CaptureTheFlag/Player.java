@@ -74,6 +74,12 @@ public class Player implements Thing{
 				return 1;
 			}
 		}
+		else if (o.isFlag() && o.getNumber() == player) {
+			if (Math.abs(x - o.getX()) <= radius + o.getWidth() / 2 &&
+					Math.abs(y - o.getY()) <= radius + o.getHeight() / 2) {
+				return 3;
+			}
+		}
 		else {
 			if (player == 1 && x > Window.width() / 2) {
 				if (Math.abs(x - o.getX()) <= radius + o.getRadius() &&
