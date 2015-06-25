@@ -35,7 +35,13 @@ public class Flag implements Thing{
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
-		
+		if (flag == 1) {
+			x = 100;
+		}
+		else {
+			x = Window.width() - 100;
+		}
+		y = Window.height() / 2;
 	}
 
 	@Override
