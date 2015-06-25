@@ -86,4 +86,10 @@ public class Flag implements Thing{
 		return height;
 	}
 
+	@Override
+	public int getNumber() {
+		// TODO Auto-generated method stub
+		return flag;
+	}
+
 }
