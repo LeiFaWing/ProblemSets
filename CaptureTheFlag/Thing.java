@@ -4,9 +4,9 @@ public interface Thing {
 	
 	public void draw();
 	public void move();
-	public boolean checkCollision(Thing otherThing);
+	public int checkCollision(Thing otherThing);
 	public boolean isFlag();
-	public void follow();
+	public void follow(int x, int y);
 	public int getX();
 	public int getY();
 	public int getRadius();
