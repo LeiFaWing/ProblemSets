@@ -12,4 +12,6 @@ public interface Thing {
 	public int getRadius();
 	public int getWidth();
 	public int getHeight();
+	
+	public int getNumber();
 }
