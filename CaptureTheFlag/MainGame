@@ -1,0 +1,64 @@
+package flag;
+
+import java.util.ArrayList;
+
+import apcs.Window;
+
+public class MainGame {
+
+	static ArrayList<Thing> things;
+	
+	public static void main(String[] args) {
+		
+		setup();
+		
+		while (true) {
+			drawBackground();
+			for (Thing t : things) {
+				t.draw();
+				t.move();
+				for (Thing o : things) {
+					if (t != o && t.checkCollision(o) == 1) {
+						o.follow(t.getX(), t.getY());
+					}
+				}
+			}
+			
+			Window.frame();
+		}
+	}
+	
+	public static void setup() {
+		Window.size(1000, 600);
+		things = new ArrayList<Thing>();
+		
+		Thing p1 = new Player(1);
+		Thing p2 = new Player(2);
+		Flag f1 = new Flag(1);
+		Flag f2 = new Flag(2);
+		
+		things.add(p1);
+		things.add(p2);
+		things.add(f1);
+		things.add(f2);
+	}
+	
+	public static void drawBackground() {
+		Window.out.background("green");
+		Window.out.color("white");
+		Window.out.rectangle(Window.width() / 2, 
+				Window.height() / 2, 10, Window.height());
+		
+		// draw player 1 flag area
+		Window.out.circle(100, Window.height() / 2, 50);
+		Window.out.color("green");
+		Window.out.circle(100, Window.height() / 2, 40);
+		
+		// draw player 2 flag area
+		Window.out.color("white");
+		Window.out.circle(Window.width() - 100, Window.height() / 2, 50);
+		Window.out.color("green");
+		Window.out.circle(Window.width() - 100, Window.height() / 2, 40);
+	}
+
+}
