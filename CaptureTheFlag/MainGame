@@ -22,6 +22,18 @@ public class MainGame {
 				for (Thing o : things) {
 					if (t != o && t.checkCollision(o) == 1) {
 						o.follow(t.getX(), t.getY());
+						for (Thing j : things) {
+							if (o != j && t.checkCollision(j) == 3) {
+								if (t.getNumber() == 1) {
+									System.out.print("Blue Wins");
+									System.exit(0);
+								}
+								else {
+									System.out.print("Blue Wins");
+									System.exit(0);
+								}
+							}
+						}
 					}
 					if (t != o && t.checkCollision(o) == 2) {
 						t.follow(0, 0);
