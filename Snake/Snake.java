@@ -14,6 +14,10 @@ public class Snake {
 	int side = 10;
 	int direction = RIGHT;
 	Snake next;
+	int length = 0;
+	int r = Window.rollDice(255);
+	int g = Window.rollDice(255);
+	int b = Window.rollDice(255);
 
 	public Snake() {
 		x = Window.width() / 2;
@@ -79,7 +83,7 @@ public class Snake {
 	}
 
 	public void draw() {
-		Window.out.color("blue");
+		Window.out.color(r, g, b);
 		Window.out.square(x, y, side);
 		if (next != null) {
 			next.draw();
