@@ -10,7 +10,7 @@ public class Food {
 	
 	public Food() {
 		x = Window.rollDice(Window.width() - side / 2) + side / 2;
-		y = Window.rollDice(Window.width() - side / 2) + side / 2;
+		y = Window.rollDice(Window.height() - side / 2) + side / 2;
 	}
 	
 	public void draw() {
@@ -20,6 +20,6 @@ public class Food {
 	
 	public void reset() {
 		x = Window.rollDice(Window.width() - side / 2) + side / 2;
-		y = Window.rollDice(Window.width() - side / 2) + side / 2;
+		y = Window.rollDice(Window.height() - side / 2) + side / 2;
 	}
 }
