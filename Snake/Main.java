@@ -19,7 +19,7 @@ public class Main {
 	static Events foody = new Events();
 	
 	public static void main (String[] args) {
-		Window.size(800, 800);
+		Window.size(800, 600);
 		f = new Food();
 		
 		
