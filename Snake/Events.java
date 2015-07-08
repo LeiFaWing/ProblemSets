@@ -8,7 +8,7 @@ public class Events implements ValueEventListener{
 	
 	//String name;
 	long data;
-	boolean update = false;
+	static boolean update = false;
 	
 	public Events() {
 		//this.name = name;
