@@ -9,142 +9,77 @@ import apcs.Window;
 
 public class Main {
 	
-	static Snake head = new Snake();
-	static Snake head2 = new Snake(250, 250);
-	static Snake newHead2 = new Snake(250, 250);
-	static long newHead2x = 250;
-	static long newHead2y = 250;
-	static Food f = new Food();
-	static long foodx = 100;
-	static long foody = 100;
-	static boolean update = false;
+	static Food f;
+	static Snake[] snakes = new Snake[8];
+	static long[] snakex = new long[8];
+	static long[] snakey = new long[8];
+	static Events[] eventsx = new Events[8];
+	static Events[] eventsy = new Events[8];
+	static Events foodx = new Events();
+	static Events foody = new Events();
 	
 	public static void main (String[] args) {
 		Window.size(800, 800);
+		f = new Food();
+		
+		
+		for (int i = 0; i < snakes.length; i++) {
+			snakes[i] = new Snake(i * 50 + 50, 100);
+		}
 		
 		Firebase server = new Firebase("https://multiplayersnake.firebaseio.com");
+		server.child("foodx").setValue(f.x);
+		server.child("foody").setValue(f.y);
+		server.child("foodx").addValueEventListener(foodx);
+		server.child("foody").addValueEventListener(foody);
 		
-		server.child("foodx").addValueEventListener(new ValueEventListener() {
 
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot d) {
-				update = true;
-				foodx = (Long) d.getValue();
-				update = false;
-			}
-			
-		});
-		
-		server.child("foody").addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot d) {
-				update = true;
-				foody = (Long) d.getValue();
-				update = false;
-			}
-			
-		});
-		
-		server.child("head2x").addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot data) {
-				// TODO Auto-generated method stub
-				update = true;
-				newHead2x = (long) data.getValue();
-				update = false;
-			}
-			
-		});
-		
-		server.child("head2y").addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot data) {
-				// TODO Auto-generated method stub
-				update = true;
-				newHead2y = (long) data.getValue();
-				update = false;
-			}
-			
-		});
+		for (int i = 0; i < snakes.length; i++) {
+			server.child("snakex"+i).setValue(snakes[i].x);
+			server.child("snakey"+i).setValue(snakes[i].y);
+			server.child("snakex"+i).addValueEventListener(eventsx[i] = new Events());
+			server.child("snakey"+i).addValueEventListener(eventsy[i] = new Events());
+		}
 		
 		
 		while (true) {
 			Window.out.background("black");
-			if (!update) {
-				head2.x = (int) newHead2x;
-				head2.y = (int) newHead2y;
-				f.x = (int) foodx;
-				f.y = (int) foody;
+			if (!Events.update) {
+				
+				f.x = (int) foodx.data;
+				f.y = (int) foody.data;
+				for (int i = 0; i < 8; i++) {
+					snakes[i].x = (int) eventsx[i].data;
+					snakes[i].y = (int) eventsy[i].data;
+				}
 			}
 			
 			f.draw();
 			
-			head2.draw();
-			head2.changeDirection();
-			head2.move();
-			head.draw();
-			head.changeDirection();
-			head.move();
 			
-			server.child("head1x").setValue(head.x);
-			server.child("head1y").setValue(head.y);
-			
-			if (head.checkBoundaries()) {
-				head = new Snake();
+			for (int i = 0; i < snakes.length; i++) {
+				snakes[i].draw();
+				snakes[i].changeDirection();
+				snakes[i].move();
+				
+				if (snakes[i].checkBoundaries()) {
+					snakes[i] = new Snake();
+				}
+				if (snakes[i].checkFood(f)) {
+					snakes[i].grow();
+					f.reset();
+					server.child("foodx").setValue(f.x);
+					server.child("foody").setValue(f.y);
+				}
+				if (snakes[i].checkItself(snakes[i])) {
+					snakes[i] = new Snake();
+				}
+				
+				
 			}
 			
-			if (head.checkItself(head)) {
-				head = new Snake();
-			}
-			
-			if (head.checkFood(f)) {
-				head.grow();
-				f.reset();
-				server.child("foodx").setValue(f.x);
-				server.child("foody").setValue(f.y);
-			}
-			
-			if (head2.checkBoundaries()) {
-				head2 = new Snake();
-			}
-			
-			if (head2.checkItself(head2)) {
-				head2 = new Snake();
-			}
-			
-			if (head2.checkFood(f)) {
-				head2.grow();
-				f.reset();
-				server.child("foodx").setValue(f.x);
-				server.child("foody").setValue(f.y);
-			}
+			server.child("snakex0").setValue(snakes[0].x);
+			server.child("snakey0").setValue(snakes[0].y);
 			
 			Window.frame();
 		}
