@@ -10,9 +10,9 @@ public class Events implements ValueEventListener{
 	long data;
 	boolean update = false;
 	
-	public Events(long data) {
+	public Events() {
 		//this.name = name;
-		this.data = data;
+		//this.data = data;
 	}
 
 	@Override
