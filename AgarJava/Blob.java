@@ -31,9 +31,9 @@ public class Blob {
 	
 	public void setValues() {
 		
-		Game.server.child("ballx"+Game.ballNumber).setValue(x);
-		Game.server.child("bally"+Game.ballNumber).setValue(y);
-		Game.server.child("ballr"+Game.ballNumber).setValue(radius);
+		Game.server.child("ball").child("ballx"+Game.ballNumber).setValue(x);
+		Game.server.child("ball").child("bally"+Game.ballNumber).setValue(y);
+		Game.server.child("ball").child("ballr"+Game.ballNumber).setValue(radius);
 	}
 	
 	public void draw(int xoffset, int yoffset) {
