@@ -76,7 +76,7 @@ public class Game {
 		ArrayList <Blob> blobs = new ArrayList <Blob> ();
 
 
-		for (int i = 0 ; i < 1000 ; i++) {
+		for (int i = 0 ; i < 5000 ; i++) {
 			blobs.add(new Blob());
 		}
 
@@ -89,17 +89,26 @@ public class Game {
 				
 				if (p.checkCollision(players.get(i))) {
 					if (p.radius > players.get(i).radius) {
-						p.radius += players.get(i).radius;
+						p.radius = (int) Math.sqrt(p.radius * p.radius + players.get(i).radius * players.get(i).radius);
 						players.remove(i);
 						i--;
 					}
-//					else {
-//						p = new Player("steve");
-//					}
+					else if (p.radius < players.get(i).radius){
+						p.x = Window.rollDice(10000);
+						p.y = Window.rollDice(10000);
+						p.radius = 20;
+						server.child("stevex").setValue(p.x);
+						server.child("stevey").setValue(p.y);
+						server.child("stever").setValue(p.radius);
+					}
 				}
 			}
 
 			p.draw();
+			
+			if (p.radius > 100) {
+				p.radius = p.radius * 9 / 10;
+			}
 
 			for (int i = 0 ; i < blobs.size() ; i++) {
 				blobs.get(i).draw(p.x, p.y);
@@ -117,6 +126,10 @@ public class Game {
 			}
 
 			p.move();
+			
+			if (blobs.size() < 5000) {
+				blobs.add(new Blob());
+			}
 			
 
 			server.child("stevex").setValue(p.x);
