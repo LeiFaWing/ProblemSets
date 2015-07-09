@@ -93,9 +93,9 @@ public class Game {
 						players.remove(i);
 						i--;
 					}
-					else {
-						p = new Player("steve");
-					}
+//					else {
+//						p = new Player("steve");
+//					}
 				}
 			}
 
