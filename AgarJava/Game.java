@@ -15,6 +15,7 @@ public class Game {
 	
 	static Firebase server = new Firebase("https://agarjava.firebaseio.com/");
 	static int ballNumber = 0;
+	static int cooldown = 50;
 
 	public static void main(String[] args) {
 		Window.size(800, 600);
@@ -77,7 +78,7 @@ public class Game {
 		ArrayList <Blob> blobs = new ArrayList <Blob> ();
 
 
-		for (int i = 0 ; i < 5000 ; i++) {
+		for (int i = 0 ; i < 2000 ; i++) {
 			blobs.add(new Blob());
 		}
 
@@ -107,8 +108,9 @@ public class Game {
 
 			p.draw();
 			
-			if (p.radius > 100) {
+			if (p.radius > 100 && cooldown >= 50) {
 				p.radius = (int) (p.radius - (p.radius * .01));
+				cooldown = 0;
 			}
 
 			for (int i = 0 ; i < blobs.size() ; i++) {
@@ -136,6 +138,8 @@ public class Game {
 			server.child("stevex").setValue(p.x);
 			server.child("stevey").setValue(p.y);
 			server.child("stever").setValue(p.radius);
+			
+			cooldown++;
 
 			Window.frame();
 		}
