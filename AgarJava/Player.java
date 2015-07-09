@@ -20,89 +20,102 @@ public class Player {
 		g = Window.rollDice(256) - 1;
 		b = Window.rollDice(256) - 1;
 		this.name = name;
-		radius = 15;
+		radius = 20;
 		addListeners();
-		
+
 	}
-	
+
 	public void addListeners() {
 		Game.server.child(name+"x").addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onCancelled(FirebaseError arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onDataChange(DataSnapshot data) {
 				// TODO Auto-generated method stub
-				long x2 = (Long) data.getValue();
-				x = (int) x2;
+				if (data.getValue() != null) {
+					long x2 = (Long) data.getValue();
+					x = (int) x2;
+				}
 			}
-			
+
 		});
-		
+
 		Game.server.child(name+"y").addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onCancelled(FirebaseError arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onDataChange(DataSnapshot data) {
 				// TODO Auto-generated method stub
-				long y2 = (Long) data.getValue();
-				y = (int) y2;
+				if (data.getValue() != null) {
+					long y2 = (Long) data.getValue();
+					y = (int) y2;
+				}
 			}
-			
+
 		});
-		
+
 		Game.server.child(name+"r").addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onCancelled(FirebaseError arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onDataChange(DataSnapshot data) {
 				// TODO Auto-generated method stub
-				long r2 = (Long) data.getValue();
-				radius = (int) r2;
+				if (data.getValue() != null) {
+					long r2 = (Long) data.getValue();
+					radius = (int) r2;
+				}
 			}
-			
+
 		});
-		
+
 		Game.server.child(name+"n").addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onCancelled(FirebaseError arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onDataChange(DataSnapshot data) {
 				// TODO Auto-generated method stub
-				name = (String) data.getValue();
+				if (data.getValue() != null) { 
+					name = (String) data.getValue();
+				}
 			}
-			
+
 		});
 
 	}
-	
+
 	public void draw() {
+
 		Window.out.color(r, g, b);
 		Window.out.circle(Window.width() / 2, Window.height() / 2, radius);
+		Window.out.color("black");
+		Window.out.print(name, Window.width()/2, Window.height()/2);
 	}
-	
+
 	public void draw(int xoffset, int yoffset) {
 		Window.out.color(r, g, b);
 		Window.out.circle(Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset), radius);
+		Window.out.color("black");
+		Window.out.print(name, Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset));
 	}
 
 	public void move() {
@@ -119,5 +132,36 @@ public class Player {
 
 		x = x + dx;
 		y = y + dy;
+	}
+
+	public boolean checkCollision(Blob blob) {
+
+		int a = x - blob.x;
+		int b = y - blob.y;
+		int c = radius + blob.radius;
+
+		if (a * a + b * b < c * c) {
+			return true;
+		}
+
+
+		return false;
+	}
+	
+	public boolean checkCollision(Player p) {
+		if (p == this) {
+			return false;
+		}
+		
+		int a = x - p.x;
+		int b = y - p.y;
+		int c = radius + p.radius;
+
+		if (a * a + b * b < c * c) {
+			return true;
+		}
+
+
+		return false;
 	}
 }
