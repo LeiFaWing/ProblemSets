@@ -104,11 +104,15 @@ public class Player {
 	}
 
 	public void draw() {
-
+		
 		Window.out.color(r, g, b);
 		Window.out.circle(Window.width() / 2, Window.height() / 2, radius);
 		Window.out.color("black");
 		Window.out.print(name, Window.width()/2, Window.height()/2);
+		
+		Window.out.print(x, Window.width()/2, Window.height()/2 + 20);
+		Window.out.print(y, Window.width()/2, Window.height()/2 + 40);
+		Window.out.print(radius, Window.width()/2, Window.height()/2 + 60);
 	}
 
 	public void draw(int xoffset, int yoffset) {
