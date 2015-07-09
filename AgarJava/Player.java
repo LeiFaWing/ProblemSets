@@ -1,171 +1,148 @@
 package Agar;
 
+import java.util.ArrayList;
+
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import apcs.Window;
 
-public class Player {
-
-	int x, y, radius;
-	int r, g, b;
-	//int dx, dy;
-	String name;
-
-	public Player(String name) {
-		x = Window.rollDice(10000);
-		y = Window.rollDice(10000);
-		r = Window.rollDice(256) - 1;
-		g = Window.rollDice(256) - 1;
-		b = Window.rollDice(256) - 1;
-		this.name = name;
-		radius = 20;
-		addListeners();
-
-	}
-
-	public void addListeners() {
-		Game.server.child(name+"x").addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot data) {
-				// TODO Auto-generated method stub
-				if (data.getValue() != null) {
-					long x2 = (Long) data.getValue();
-					x = (int) x2;
-				}
-			}
-
-		});
-
-		Game.server.child(name+"y").addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot data) {
-				// TODO Auto-generated method stub
-				if (data.getValue() != null) {
-					long y2 = (Long) data.getValue();
-					y = (int) y2;
-				}
-			}
-
-		});
-
-		Game.server.child(name+"r").addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot data) {
-				// TODO Auto-generated method stub
-				if (data.getValue() != null) {
-					long r2 = (Long) data.getValue();
-					radius = (int) r2;
-				}
-			}
-
-		});
-
-		Game.server.child(name+"n").addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot data) {
-				// TODO Auto-generated method stub
-				if (data.getValue() != null) { 
-					name = (String) data.getValue();
-				}
-			}
-
-		});
-
-	}
-
-	public void draw() {
-		
-		Window.out.color(r, g, b);
-		Window.out.circle(Window.width() / 2, Window.height() / 2, radius);
-		Window.out.color("black");
-		Window.out.print(name, Window.width()/2, Window.height()/2);
-		
-		Window.out.print(x, Window.width()/2, Window.height()/2 + 20);
-		Window.out.print(y, Window.width()/2, Window.height()/2 + 40);
-		Window.out.print(radius, Window.width()/2, Window.height()/2 + 60);
-	}
-
-	public void draw(int xoffset, int yoffset) {
-		Window.out.color(r, g, b);
-		Window.out.circle(Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset), radius);
-		Window.out.color("black");
-		Window.out.print(name, Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset));
-	}
-
-	public void move() {
-		// Get the raw difference i
-		int dx = Window.mouse.getX() - Window.width() / 2;
-		int dy = Window.mouse.getY() - Window.height() / 2;
-
-		double magnitude = Math.sqrt(dx * dx + dy * dy);
-
-		if (magnitude > 10) {
-			dx = (int) (dx * 10 / magnitude);
-			dy = (int) (dy * 10 / magnitude);
-		}
-
-		x = x + dx;
-		y = y + dy;
-	}
-
-	public boolean checkCollision(Blob blob) {
-
-		int a = x - blob.x;
-		int b = y - blob.y;
-		int c = radius + blob.radius;
-
-		if (a * a + b * b < c * c) {
-			return true;
-		}
 
 
-		return false;
-	}
+public class Game {
 	
-	public boolean checkCollision(Player p) {
-		if (p == this) {
-			return false;
+	static Firebase server = new Firebase("https://agarjava.firebaseio.com/");
+	static int ballNumber = 0;
+	static int cooldown = 50;
+
+	public static void main(String[] args) {
+		Window.size(800, 600);
+		Window.setFrameRate(30);
+
+
+
+		ArrayList<Player> players = new ArrayList<Player>();
+
+		server.child("online").child("steve").setValue(true);
+		server.child("online").child("steve").onDisconnect().setValue(false);
+
+		Player p = new Player("steve");
+
+		server.child("online").addChildEventListener(new ChildEventListener() {
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onChildAdded(DataSnapshot data, String _) {
+				String name = data.getKey();
+				players.add(new Player(name));
+				
+			}
+
+			@Override
+			public void onChildChanged(DataSnapshot data, String _) {
+				String name = data.getKey();
+				if ((Boolean) data.getValue()) {
+					System.out.println(name + " is online");
+				}
+				else {
+					System.out.println(name + " is not online");
+				}
+			}
+
+			@Override
+			public void onChildMoved(DataSnapshot arg0, String arg1) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onChildRemoved(DataSnapshot arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		server.child("stevex").setValue(p.x);
+		server.child("stevey").setValue(p.y);
+		server.child("stever").setValue(p.radius);
+		server.child("steven").setValue(p.name);
+
+		ArrayList <Blob> blobs = new ArrayList <Blob> ();
+
+
+		for (int i = 0 ; i < 2000 ; i++) {
+			blobs.add(new Blob());
 		}
-		
-		int a = x - p.x;
-		int b = y - p.y;
-		int c = radius + p.radius;
 
-		if (a * a + b * b < c * c) {
-			return true;
+
+		while (true) {
+			Window.out.background("white");
+
+			for (int i = 0; i < players.size(); i++) {
+				players.get(i).draw(p.x, p.y);
+				
+				if (p.checkCollision(players.get(i))) {
+					if (p.radius > players.get(i).radius) {
+						p.radius = (int) Math.sqrt(p.radius * p.radius + players.get(i).radius * players.get(i).radius);
+						players.remove(i);
+						i--;
+					}
+					else if (p.radius < players.get(i).radius){
+						p.x = Window.rollDice(10000);
+						p.y = Window.rollDice(10000);
+						p.radius = 20;
+						server.child("stevex").setValue(p.x);
+						server.child("stevey").setValue(p.y);
+						server.child("stever").setValue(p.radius);
+					}
+				}
+			}
+
+			p.draw();
+			
+			if (p.radius > 100 && cooldown >= 50) {
+				p.radius = (int) (p.radius - (p.radius * .01));
+				cooldown = 0;
+			}
+
+			for (int i = 0 ; i < blobs.size() ; i++) {
+				blobs.get(i).draw(p.x, p.y);
+				
+				if (p.checkCollision(blobs.get(i))) {
+					blobs.remove(i);
+					p.radius += 1;
+					i--;
+				}
+			}
+
+			if (p.x > 9600) {
+				Window.out.color("black");
+				Window.out.square(10800 - p.x, 400, 800);
+			}
+
+			p.move();
+			
+			if (blobs.size() < 5000) {
+				blobs.add(new Blob());
+			}
+			
+
+			server.child("stevex").setValue(p.x);
+			server.child("stevey").setValue(p.y);
+			server.child("stever").setValue(p.radius);
+			
+			cooldown++;
+
+			Window.frame();
 		}
-
-
-		return false;
 	}
+
 }
