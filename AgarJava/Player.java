@@ -1,5 +1,9 @@
 package Agar;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
 import apcs.Window;
 
 public class Player {
@@ -17,6 +21,78 @@ public class Player {
 		b = Window.rollDice(256) - 1;
 		this.name = name;
 		radius = 15;
+		addListeners();
+		
+	}
+	
+	public void addListeners() {
+		Game.server.child(name+"x").addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot data) {
+				// TODO Auto-generated method stub
+				long x2 = (Long) data.getValue();
+				x = (int) x2;
+			}
+			
+		});
+		
+		Game.server.child(name+"y").addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot data) {
+				// TODO Auto-generated method stub
+				long y2 = (Long) data.getValue();
+				y = (int) y2;
+			}
+			
+		});
+		
+		Game.server.child(name+"r").addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot data) {
+				// TODO Auto-generated method stub
+				long r2 = (Long) data.getValue();
+				radius = (int) r2;
+			}
+			
+		});
+		
+		Game.server.child(name+"n").addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot data) {
+				// TODO Auto-generated method stub
+				name = (String) data.getValue();
+			}
+			
+		});
+
 	}
 	
 	public void draw() {
