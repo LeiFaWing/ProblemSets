@@ -14,6 +14,7 @@ import apcs.Window;
 public class Game {
 	
 	static Firebase server = new Firebase("https://agarjava.firebaseio.com/");
+	static int ballNumber = 0;
 
 	public static void main(String[] args) {
 		Window.size(800, 600);
@@ -107,7 +108,7 @@ public class Game {
 			p.draw();
 			
 			if (p.radius > 100) {
-				p.radius = p.radius * 9 / 10;
+				p.radius = (int) (p.radius - (p.radius * .01));
 			}
 
 			for (int i = 0 ; i < blobs.size() ; i++) {
