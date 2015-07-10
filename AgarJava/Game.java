@@ -110,9 +110,9 @@ public class Game {
 				blobs.get(i).draw(p.x, p.y);
 				
 				if (p.checkCollision(blobs.get(i))) {
-					blobs.remove(i);
+					blobs.get(i).reset();
+					blobs.get(i).setValues();
 					p.radius += 1;
-					i--;
 				}
 			}
 
