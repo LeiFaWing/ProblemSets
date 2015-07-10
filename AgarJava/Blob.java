@@ -41,10 +41,11 @@ public class Blob {
 		y = Window.rollDice(10000);
 	}
 
-	public void draw(int xoffset, int yoffset) {
+	public void draw(int xoffset, int yoffset, int scale) {
 		if (Math.abs(x - xoffset) <= Window.width() / 2 && Math.abs(y - yoffset) <= Window.height() / 2) {
 			Window.out.color(r, g, b);
-			Window.out.circle(Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset), radius);
+			Window.out.circle(Window.width() / 2 + (x - xoffset)/scale
+					, Window.height() / 2 + (y - yoffset)/scale, radius/scale);
 		}
 	}
 }
