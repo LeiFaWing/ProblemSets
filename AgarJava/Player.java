@@ -152,8 +152,8 @@ public class Player {
 
 	public void draw(int xoffset, int yoffset) {
 		Window.out.color(r, g, b);
-		Window.out.circle((Window.width() / 2 + (x - xoffset)) / scale
-				, (Window.height() / 2 + (y - yoffset)) / scale, radius / scale);
+		Window.out.circle(Window.width() / 2 + (x - xoffset) / scale
+				, Window.height() / 2 + (y - yoffset) / scale, radius / scale);
 		Window.out.color("black");
 		Window.out.print(name, Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset));
 	}
