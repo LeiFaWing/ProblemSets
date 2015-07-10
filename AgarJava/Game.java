@@ -12,7 +12,7 @@ import apcs.Window;
 
 
 public class Game {
-	
+
 	static Firebase server = new Firebase("https://agarjava.firebaseio.com/");
 	static int ballNumber = 0;
 	static int cooldown = 25;
@@ -24,15 +24,15 @@ public class Game {
 
 
 		ArrayList<Player> players = new ArrayList<Player>();
-		
+
 		ArrayList <Blob> blobs = new ArrayList <Blob> ();
 
 
 		for (int i = 0 ; i < 2000 ; i++) {
 			blobs.add(new Blob());
 		}
-		
-		
+
+
 
 		server.child("online").child("steve").setValue(true);
 		server.child("online").child("steve").onDisconnect().setValue(false);
@@ -51,7 +51,7 @@ public class Game {
 			public void onChildAdded(DataSnapshot data, String _) {
 				String name = data.getKey();
 				players.add(new Player(name));
-				
+
 			}
 
 			@Override
@@ -86,8 +86,10 @@ public class Game {
 			Window.out.background("white");
 
 			for (int i = 0; i < players.size(); i++) {
-				players.get(i).draw(p.x, p.y);
-				
+				if (!players.get(i).name.equals(p.name)) {
+					players.get(i).draw(p.x, p.y);
+				}
+
 				if (p.checkCollision(players.get(i))) {
 					if (p.radius > players.get(i).radius) {
 						p.radius += players.get(i).radius / 4;
@@ -103,7 +105,7 @@ public class Game {
 			}
 
 			p.draw();
-			
+
 			if (p.radius > 100 && cooldown >= 25) {
 				p.radius = (int) (p.radius - (p.radius * .01));
 				cooldown = 0;
@@ -111,7 +113,7 @@ public class Game {
 
 			for (int i = 0 ; i < blobs.size() ; i++) {
 				blobs.get(i).draw(p.x, p.y);
-				
+
 				if (p.checkCollision(blobs.get(i))) {
 					blobs.get(i).reset();
 					blobs.get(i).setValues();
@@ -125,14 +127,14 @@ public class Game {
 			}
 
 			p.move();
-			
+
 			if (blobs.size() < 5000) {
 				blobs.add(new Blob());
 			}
-			
+
 
 			p.setValues();
-			
+
 			cooldown++;
 
 			Window.frame();
