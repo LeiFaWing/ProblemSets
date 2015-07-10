@@ -70,9 +70,8 @@ public class Game {
 			}
 
 			@Override
-			public void onChildRemoved(DataSnapshot arg0) {
-				// TODO Auto-generated method stub
-
+			public void onChildRemoved(DataSnapshot data) {
+				String name = data.getKey();
 			}
 
 		});
@@ -87,16 +86,18 @@ public class Game {
 				players.get(i).draw(p.x, p.y);
 				
 				if (p.checkCollision(players.get(i))) {
-					if (p.radius > players.get(i).radius) {
-						p.radius = (int) Math.sqrt(p.radius * p.radius + players.get(i).radius * players.get(i).radius);
-						players.remove(i);
-						i--;
-					}
-					else if (p.radius < players.get(i).radius){
+//					if (p.radius > players.get(i).radius) {
+//						p.radius = (int) Math.sqrt(p.radius * p.radius + players.get(i).radius * players.get(i).radius);
+//						players.remove(i);
+//						i--;
+//					}
+//					else 
+					if (p.radius < players.get(i).radius){
 						p.x = Window.rollDice(10000);
 						p.y = Window.rollDice(10000);
 						p.radius = 20;
 						p.setValues();
+						server.child("online/steve").removeValue();
 					}
 				}
 			}
