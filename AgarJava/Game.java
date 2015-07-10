@@ -1,4 +1,4 @@
-package agar;
+package Agar;
 
 import java.util.ArrayList;
 
@@ -94,9 +94,7 @@ public class Game {
 						p.x = Window.rollDice(10000);
 						p.y = Window.rollDice(10000);
 						p.radius = 20;
-						server.child("stevex").setValue(p.x);
-						server.child("stevey").setValue(p.y);
-						server.child("stever").setValue(p.radius);
+						p.setValues();
 					}
 				}
 			}
@@ -130,9 +128,7 @@ public class Game {
 			}
 			
 
-			server.child("stevex").setValue(p.x);
-			server.child("stevey").setValue(p.y);
-			server.child("stever").setValue(p.radius);
+			p.setValues();
 			
 			cooldown++;
 
