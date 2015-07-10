@@ -150,7 +150,7 @@ public class Player {
 		Window.out.print(radius, Window.width()/2, Window.height()/2 + 60);
 	}
 
-	public void draw(int xoffset, int yoffset) {
+	public void draw(int xoffset, int yoffset, int scale) {
 		Window.out.color(r, g, b);
 		Window.out.circle(Window.width() / 2 + (x - xoffset) / scale
 				, Window.height() / 2 + (y - yoffset) / scale, radius / scale);
@@ -160,8 +160,8 @@ public class Player {
 
 	public void move() {
 		
-		if (radius > 500) {
-			radius = 500;
+		if (radius > 2000) {
+			radius = 2000;
 		}
 		// Get the raw difference i
 		int dx = Window.mouse.getX() - Window.width() / 2;
