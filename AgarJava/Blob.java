@@ -42,7 +42,8 @@ public class Blob {
 	}
 
 	public void draw(int xoffset, int yoffset, int scale) {
-		if (Math.abs(x - xoffset) <= Window.width() / 2 && Math.abs(y - yoffset) <= Window.height() / 2) {
+		if (Math.abs(x - xoffset) <= (Window.width() / 2) * scale 
+				&& Math.abs(y - yoffset) <= (Window.height() / 2) * scale) {
 			Window.out.color(r, g, b);
 			int viewRadius = radius/scale;
 			if (viewRadius <= 0) {
