@@ -31,6 +31,8 @@ public class Game {
 		for (int i = 0 ; i < 2000 ; i++) {
 			blobs.add(new Blob());
 		}
+		
+		
 
 		server.child("online").child("steve").setValue(true);
 		server.child("online").child("steve").onDisconnect().setValue(false);
@@ -87,7 +89,7 @@ public class Game {
 				
 				if (p.checkCollision(players.get(i))) {
 					if (p.radius > players.get(i).radius) {
-						p.radius = (int) Math.sqrt(p.radius * p.radius + players.get(i).radius * players.get(i).radius);
+						p.radius += players.get(i).radius / 4;
 					}
 					else if (p.radius < players.get(i).radius){
 						p.x = Window.rollDice(10000);
