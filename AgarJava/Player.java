@@ -13,6 +13,7 @@ public class Player {
 	//int dx, dy;
 	String name;
 	boolean setName = false;
+	int scale = 1;
 
 	public Player(String name) {
 		x = Window.rollDice(10000);
@@ -132,8 +133,13 @@ public class Player {
 	public void draw() {
 		// draw circle
 		Window.out.color(r, g, b);
+		
+		if (radius > scale * 100) {
+			scale++;
+		}
+		
 
-		Window.out.circle(Window.width() / 2, Window.height() / 2, radius);
+		Window.out.circle(Window.width() / 2, Window.height() / 2, radius / scale);
 		// draw name
 		Window.out.color("black");
 		Window.out.print(name, Window.width()/2, Window.height()/2);
@@ -146,7 +152,8 @@ public class Player {
 
 	public void draw(int xoffset, int yoffset) {
 		Window.out.color(r, g, b);
-		Window.out.circle(Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset), radius);
+		Window.out.circle((Window.width() / 2 + (x - xoffset)) / scale
+				, (Window.height() / 2 + (y - yoffset)) / scale, radius / scale);
 		Window.out.color("black");
 		Window.out.print(name, Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset));
 	}
