@@ -35,6 +35,11 @@ public class Blob {
 		Game.server.child("ball").child("bally"+Game.ballNumber).setValue(y);
 		Game.server.child("ball").child("ballr"+Game.ballNumber).setValue(radius);
 	}
+	
+	public void reset() {
+		x = Window.rollDice(10000);
+		y = Window.rollDice(10000);
+	}
 
 	public void draw(int xoffset, int yoffset) {
 		if (Math.abs(x - xoffset) <= Window.width() / 2 && Math.abs(y - yoffset) <= Window.height() / 2) {
