@@ -86,13 +86,10 @@ public class Game {
 				players.get(i).draw(p.x, p.y);
 				
 				if (p.checkCollision(players.get(i))) {
-//					if (p.radius > players.get(i).radius) {
-//						p.radius = (int) Math.sqrt(p.radius * p.radius + players.get(i).radius * players.get(i).radius);
-//						players.remove(i);
-//						i--;
-//					}
-//					else 
-					if (p.radius < players.get(i).radius){
+					if (p.radius > players.get(i).radius) {
+						p.radius = (int) Math.sqrt(p.radius * p.radius + players.get(i).radius * players.get(i).radius);
+					}
+					else if (p.radius < players.get(i).radius){
 						p.x = Window.rollDice(10000);
 						p.y = Window.rollDice(10000);
 						p.radius = 20;
