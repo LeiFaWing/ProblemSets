@@ -22,7 +22,7 @@ public class Player {
 		g = Window.rollDice(256) - 1;
 		b = Window.rollDice(256) - 1;
 		this.name = name;
-		radius = 20;
+		radius = 50;
 		setValues();
 		addListeners();
 		setName = true;
@@ -41,6 +41,13 @@ public class Player {
 		if (x > 10000) {
 			x = 10000;
 		}
+	}
+	
+	public void reset() {
+		x = Window.rollDice(10000);
+		y = Window.rollDice(10000);
+		radius = 50;
+		scale = 1;
 	}
 
 	public void setValues() {
@@ -152,8 +159,12 @@ public class Player {
 
 	public void draw(int xoffset, int yoffset, int scale) {
 		Window.out.color(r, g, b);
+		int viewRadius = radius / scale;
+		if (viewRadius <= 0) {
+			viewRadius = 1;
+		}
 		Window.out.circle(Window.width() / 2 + (x - xoffset) / scale
-				, Window.height() / 2 + (y - yoffset) / scale, radius / scale);
+				, Window.height() / 2 + (y - yoffset) / scale, viewRadius);
 		Window.out.color("black");
 		Window.out.print(name, Window.width() / 2 + (x - xoffset), Window.height() / 2 + (y - yoffset));
 	}
