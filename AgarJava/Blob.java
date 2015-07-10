@@ -44,8 +44,12 @@ public class Blob {
 	public void draw(int xoffset, int yoffset, int scale) {
 		if (Math.abs(x - xoffset) <= Window.width() / 2 && Math.abs(y - yoffset) <= Window.height() / 2) {
 			Window.out.color(r, g, b);
+			int viewRadius = radius/scale;
+			if (viewRadius <= 0) {
+				viewRadius = 1;
+			}
 			Window.out.circle(Window.width() / 2 + (x - xoffset)/scale
-					, Window.height() / 2 + (y - yoffset)/scale, radius/scale);
+					, Window.height() / 2 + (y - yoffset)/scale, viewRadius);
 		}
 	}
 }
