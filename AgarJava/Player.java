@@ -1,4 +1,4 @@
-package Agar;
+package agar;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
@@ -21,8 +21,16 @@ public class Player {
 		b = Window.rollDice(256) - 1;
 		this.name = name;
 		radius = 20;
+		setValues();
 		addListeners();
 
+	}
+	
+	public void setValues() {
+		Game.server.child(name).child(name+"x").setValue(x);
+		Game.server.child(name).child(name+"y").setValue(y);
+		Game.server.child(name).child(name+"r").setValue(radius);
+		Game.server.child(name).child(name+"n").setValue(name);
 	}
 
 	public void addListeners() {
