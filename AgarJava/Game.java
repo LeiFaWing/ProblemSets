@@ -1,4 +1,4 @@
-package Agar;
+package agar;
 
 import java.util.ArrayList;
 
@@ -69,11 +69,6 @@ public class Game {
 			}
 
 		});
-
-		server.child("stevex").setValue(p.x);
-		server.child("stevey").setValue(p.y);
-		server.child("stever").setValue(p.radius);
-		server.child("steven").setValue(p.name);
 
 		ArrayList <Blob> blobs = new ArrayList <Blob> ();
 
