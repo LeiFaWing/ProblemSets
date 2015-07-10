@@ -1,4 +1,4 @@
-package agar;
+package Agar;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
