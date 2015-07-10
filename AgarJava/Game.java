@@ -86,11 +86,12 @@ public class Game {
 
 
 		while (true) {
-			Window.out.background("white");
+			Window.out.background(240, 240, 240);
+			drawGrid();
 
 			for (int i = 0; i < players.size(); i++) {
 				if (!players.get(i).name.equals(p.name)) {
-					players.get(i).draw(p.x, p.y);
+					players.get(i).draw(p.x, p.y, p.scale);
 				}
 
 				if (p.checkCollision(players.get(i))) {
@@ -101,6 +102,7 @@ public class Game {
 						p.x = Window.rollDice(10000);
 						p.y = Window.rollDice(10000);
 						p.radius = 20;
+						p.scale = 1;
 						p.setValues();
 						server.child("online/steve").removeValue();
 					}
@@ -115,18 +117,13 @@ public class Game {
 			}
 
 			for (int i = 0 ; i < blobs.size() ; i++) {
-				blobs.get(i).draw(p.x, p.y);
+				blobs.get(i).draw(p.x, p.y, p.scale);
 
 				if (p.checkCollision(blobs.get(i))) {
 					blobs.get(i).reset();
 					blobs.get(i).setValues();
 					p.radius += 1;
 				}
-			}
-
-			if (p.x > 9600) {
-				Window.out.color("black");
-				Window.out.square(10800 - p.x, 400, 800);
 			}
 
 			p.move();
@@ -141,6 +138,19 @@ public class Game {
 			cooldown++;
 
 			Window.frame();
+		}
+	}
+	
+	public static void drawGrid() {
+		for (int x = 0; x < 10000; x += 31) {
+			for (int y = 0; y < 10000; y += 31) {
+				if (Math.abs(x - p.x) <= (Window.width() / 2) * p.scale + 30 &&
+						Math.abs(y - p.y) <= Window.height() * p.scale / 2 + 30) {
+					Window.out.color("white");
+					Window.out.square(Window.width() / 2 + (x - p.x) / p.scale, 
+							Window.height() / 2 + (y - p.y) / p.scale, 30);
+				}
+			}
 		}
 	}
 
