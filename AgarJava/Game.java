@@ -16,12 +16,13 @@ public class Game {
 	static Firebase server = new Firebase("https://agarjava.firebaseio.com/");
 	static int ballNumber = 0;
 	static int cooldown = 25;
+	static Player p;
 
 	public static void main(String[] args) {
 		Window.size(800, 600);
 		Window.setFrameRate(30);
 
-
+		p = new Player("steve");
 
 		ArrayList<Player> players = new ArrayList<Player>();
 
@@ -37,7 +38,7 @@ public class Game {
 		server.child("online").child("steve").setValue(true);
 		server.child("online").child("steve").onDisconnect().setValue(false);
 
-		Player p = new Player("steve");
+		
 
 		server.child("online").addChildEventListener(new ChildEventListener() {
 
@@ -51,7 +52,9 @@ public class Game {
 			public void onChildAdded(DataSnapshot data, String _) {
 				String name = data.getKey();
 				players.add(new Player(name));
-
+				if (name.equals(p.name)) {
+					p = players.get(players.size() - 1);
+				}
 			}
 
 			@Override
