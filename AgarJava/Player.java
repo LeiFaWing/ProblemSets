@@ -26,6 +26,21 @@ public class Player {
 		addListeners();
 		setName = true;
 	}
+	
+	public void checkBorders() {
+		if (x < 0) {
+			x = 0;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		if (y > 10000) {
+			y = 10000;
+		}
+		if (x > 10000) {
+			x = 10000;
+		}
+	}
 
 	public void setValues() {
 		Game.server.child(name).child(name+"x").setValue(x);
@@ -115,12 +130,15 @@ public class Player {
 	}
 
 	public void draw() {
-
+		// draw circle
 		Window.out.color(r, g, b);
+
 		Window.out.circle(Window.width() / 2, Window.height() / 2, radius);
+		// draw name
 		Window.out.color("black");
 		Window.out.print(name, Window.width()/2, Window.height()/2);
-
+		
+		// draw x, y, and radius
 		Window.out.print(x, Window.width()/2, Window.height()/2 + 20);
 		Window.out.print(y, Window.width()/2, Window.height()/2 + 40);
 		Window.out.print(radius, Window.width()/2, Window.height()/2 + 60);
@@ -151,6 +169,8 @@ public class Player {
 
 		x = x + dx;
 		y = y + dy;
+		
+		checkBorders();
 	}
 
 	public boolean checkCollision(Blob blob) {
