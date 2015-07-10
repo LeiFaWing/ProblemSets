@@ -19,7 +19,7 @@ public class Game {
 	static Player p;
 
 	public static void main(String[] args) {
-		Window.size(800, 600);
+		Window.size(1000, 800);
 		Window.setFrameRate(30);
 
 		p = new Player("steve");
@@ -86,7 +86,7 @@ public class Game {
 
 
 		while (true) {
-			Window.out.background(240, 240, 240);
+			Window.out.background(220, 220, 220);
 			drawGrid();
 
 			for (int i = 0; i < players.size(); i++) {
@@ -98,11 +98,8 @@ public class Game {
 					if (p.radius > players.get(i).radius) {
 						p.radius += players.get(i).radius / 4;
 					}
-					else if (p.radius < players.get(i).radius){
-						p.x = Window.rollDice(10000);
-						p.y = Window.rollDice(10000);
-						p.radius = 20;
-						p.scale = 1;
+					else if (p.radius < players.get(i).radius && players.get(i).radius < 3000){
+						p.reset();
 						p.setValues();
 						server.child("online/steve").removeValue();
 					}
@@ -148,7 +145,7 @@ public class Game {
 						Math.abs(y - p.y) <= Window.height() * p.scale / 2 + 30) {
 					Window.out.color("white");
 					Window.out.square(Window.width() / 2 + (x - p.x) / p.scale, 
-							Window.height() / 2 + (y - p.y) / p.scale, 30);
+							Window.height() / 2 + (y - p.y) / p.scale, 30 / p.scale);
 				}
 			}
 		}
