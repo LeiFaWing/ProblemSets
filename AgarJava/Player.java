@@ -134,6 +134,10 @@ public class Player {
 	}
 
 	public void move() {
+		
+		if (radius > 500) {
+			radius = 500;
+		}
 		// Get the raw difference i
 		int dx = Window.mouse.getX() - Window.width() / 2;
 		int dy = Window.mouse.getY() - Window.height() / 2;
