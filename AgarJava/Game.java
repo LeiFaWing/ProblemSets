@@ -62,6 +62,7 @@ public class Game {
 				}
 				else {
 					System.out.println(name + " is not online");
+					server.child(name).removeValue();
 				}
 			}
 
