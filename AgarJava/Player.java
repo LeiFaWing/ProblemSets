@@ -1,4 +1,4 @@
-package agar;
+package Agar;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
@@ -161,7 +161,7 @@ public class Player {
 	}
 	
 	public boolean checkCollision(Player p) {
-		if (p == this) {
+		if (name.equals(p.name)) {
 			return false;
 		}
 		
