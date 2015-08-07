@@ -18,6 +18,11 @@ public class SoccerGame {
 		String[] names = { "steve", "vaishavi", "natasha" };
 
 		String myName = "steve";
+		
+		int score1 = Data.read("score1");
+		int score2 = Data.read("score2");
+		int max = 3;
+		int winner = Data.read("winner");
 
 		// create yourself
 		Player p = new Player(1, myName);
@@ -35,6 +40,7 @@ public class SoccerGame {
 			Data.write("ballx", b.x);
 			Data.write("bally", b.y);
 		//}
+		//Window.sleep(20000);
 		
 		System.out.println(Data.read("ballx") + " " + Data.read("bally"));
 
@@ -99,7 +105,64 @@ public class SoccerGame {
 				Data.write("ballx", b.x);
 				Data.write("bally", b.y);
 			}
-
+			
+			if (b.redScores()) {
+				score1++;
+				Data.write("score1", score1);
+				b.reset();
+				Data.write("ballx", b.x);
+				Data.write("bally", b.y);
+				p.reset();
+			}
+			
+			if (b.blueScores()) {
+				score2++;
+				Data.write("score2", score2);
+				b.reset();
+				Data.write("ballx", b.x);
+				Data.write("bally", b.y);
+				p.reset();
+			}
+			
+			score1 = Data.read("score1");
+			score2 = Data.read("score2");
+			
+			if (score1 >= max) {
+				winner = 1;
+				Data.write("winner", winner);
+			}
+			
+			if (score2 >= max) {
+				winner = 2;
+				Data.write("winner", winner);
+			}
+			
+			winner = Data.read("winner");
+			
+			if (winner == 1) {
+				Window.out.color(255, 0, 0);
+				Window.out.print("RED TEAM WINS", 250, 250);
+				Data.write("winner", 0);
+				Data.write("score1", 0);
+				Data.write("score2", 0);
+				Window.frame(2000);
+				System.exit(0);
+			}
+			
+			if (winner == 2) {
+				Window.out.color(0, 0, 255);
+				Window.out.print("BLUE TEAM WINS", 250, 250);
+				Data.write("winner", 0);
+				Data.write("score1", 0);
+				Data.write("score2", 0);
+				Window.frame(2000);
+				System.exit(0);
+			}
+			
+			Window.out.color("black");
+			Window.out.font("arial", 30);
+			Window.out.print("RED: " + score1, 10, 30);
+			Window.out.print("BLUE: " + score2, Window.width() - 200, 30);
 			Window.frame();
 		}
 	}
