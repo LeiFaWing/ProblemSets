@@ -36,10 +36,19 @@ public class SoccerGame {
 		// create ball
 		Ball b = new Ball();
 
-		// write ball data to server
-		Data.write("ballx", b.x);
-		Data.write("bally", b.y);
+		// write ball data to server only if nobody is online
+		if (Data.read("online") == 0) {
+			Data.write("ballx", b.x);
+			Data.write("bally", b.y);
+		}
+		else {
+			b.x = Data.read("ballx");
+			b.y = Data.read("bally");
+		}
 		
+		// tell the server that you are online
+		Data.write("online", 1);
+
 		//Window.sleep(20000);
 
 		// create an arraylist of players
@@ -56,7 +65,7 @@ public class SoccerGame {
 
 		while (true) {
 			drawBackground();
-			
+
 			int previousScore1 = score1;
 			int previousScore2 = score2;
 
@@ -82,11 +91,11 @@ public class SoccerGame {
 				players.get(i).x = x;
 				players.get(i).y = y;
 				players.get(i).team = team;
-				
+
 				players.get(i).draw();
 			}
 
-			
+
 			// read ball data from server
 			b.x = Data.read("ballx");
 			b.y = Data.read("bally");
@@ -102,7 +111,7 @@ public class SoccerGame {
 				Data.write("ballx", b.x);
 				Data.write("bally", b.y);
 			}
-			
+
 			// if ball touches boundaries bounce back
 			if (b.checkBoundaries()) {
 				b.move();
@@ -119,7 +128,7 @@ public class SoccerGame {
 				Data.write("bally", b.y);
 				p.reset();
 			}
-			
+
 			// check if blue team scores
 			if (b.blueScores()) {
 				score2++;
@@ -133,7 +142,7 @@ public class SoccerGame {
 			// read scores for both teams
 			score1 = Data.read("score1");
 			score2 = Data.read("score2");
-			
+
 			// check if team 1 wins
 			if (score1 >= max) {
 				winner = 1;
@@ -145,10 +154,10 @@ public class SoccerGame {
 				winner = 2;
 				Data.write("winner", winner);
 			}
-			
+
 			// read winner from server
 			winner = Data.read("winner");
-			
+
 			// display winner
 			if (winner == 1) {
 				Window.out.color(255, 0, 0);
@@ -156,24 +165,26 @@ public class SoccerGame {
 				Data.write("winner", 0);
 				Data.write("score1", 0);
 				Data.write("score2", 0);
+				Data.write("online", 0);
 				Window.frame(2000);
 				System.exit(0);
 			}
-			
+
 			if (winner == 2) {
 				Window.out.color(0, 0, 255);
 				Window.out.print("BLUE TEAM WINS", 250, 250);
 				Data.write("winner", 0);
 				Data.write("score1", 0);
 				Data.write("score2", 0);
+				Data.write("online", 0);
 				Window.frame(2000);
 				System.exit(0);
 			}
-			
+
 			if (previousScore1 != score1 || previousScore2 != score2) {
 				p.reset();
 			}
-			
+
 			// print out the score
 			Window.out.color("black");
 			Window.out.font("arial", 30);
