@@ -76,6 +76,10 @@ public class Player {
 			speed = 10;
 		}
 		
+		if (tired) {
+			speed = 7;
+		}
+		
 		
 		
 	}
