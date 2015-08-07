@@ -68,6 +68,16 @@ public class Player {
 		return a * a + b * b < c * c;
 	}
 	
+	public void reset() {
+		if (team == 1) {
+			x = 100;
+		}
+		else if (team == 2) {
+			x = Window.width() - 100;
+		}
+		y = Window.height() / 2;
+	}
+	
 }
 
 
