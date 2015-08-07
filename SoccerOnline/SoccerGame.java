@@ -19,13 +19,14 @@ public class SoccerGame {
 
 		String myName = "steve";
 
+
 		int score1 = Data.read("score1");
 		int score2 = Data.read("score2");
 		int max = 3;
 		int winner = Data.read("winner");
 
 		// create yourself
-		Player p = new Player(1, myName);
+		Player p = new Player(2, myName);
 
 		// write your data to server
 		Data.write(myName + "x", p.x);
@@ -55,6 +56,9 @@ public class SoccerGame {
 
 		while (true) {
 			drawBackground();
+			
+			int previousScore1 = score1;
+			int previousScore2 = score2;
 
 			// draw and move yourself
 			p.draw();
@@ -164,6 +168,10 @@ public class SoccerGame {
 				Data.write("score2", 0);
 				Window.frame(2000);
 				System.exit(0);
+			}
+			
+			if (previousScore1 != score1 || previousScore2 != score2) {
+				p.reset();
 			}
 			
 			// print out the score
