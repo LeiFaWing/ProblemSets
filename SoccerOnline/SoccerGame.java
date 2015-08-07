@@ -45,7 +45,7 @@ public class SoccerGame {
 			b.x = Data.read("ballx");
 			b.y = Data.read("bally");
 		}
-		
+
 		// tell the server that you are online
 		Data.write("online", 1);
 
@@ -190,6 +190,22 @@ public class SoccerGame {
 			Window.out.font("arial", 30);
 			Window.out.print("RED: " + score1, 10, 30);
 			Window.out.print("BLUE: " + score2, Window.width() - 200, 30);
+
+			// print out sprint time
+			Window.out.print("Sprint energy: " + p.sprintTime, Window.width() / 2 - 100, Window.height() - 30);
+			// change the color of the sprint bar
+			if (p.sprintTime >= 70) { 
+				Window.out.color("yellow");
+			}
+			else if (p.sprintTime >= 40) {
+				Window.out.color("orange");
+			}
+			else {
+				Window.out.color("red");
+			}
+			// draw the sprint bar
+			Window.out.rectangle(Window.width() / 2, Window.height(), p.sprintTime * 5, 50);
+			
 			Window.frame();
 		}
 	}
