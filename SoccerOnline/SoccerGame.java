@@ -18,7 +18,7 @@ public class SoccerGame {
 		String[] names = { "steve", "vaishavi", "natasha" };
 
 		String myName = "steve";
-		
+
 		int score1 = Data.read("score1");
 		int score2 = Data.read("score2");
 		int max = 3;
@@ -36,14 +36,12 @@ public class SoccerGame {
 		Ball b = new Ball();
 
 		// write ball data to server
-		//for (int i = 0; i < 500; i++) {
-			Data.write("ballx", b.x);
-			Data.write("bally", b.y);
-		//}
-		//Window.sleep(20000);
+		Data.write("ballx", b.x);
+		Data.write("bally", b.y);
 		
-		System.out.println(Data.read("ballx") + " " + Data.read("bally"));
+		//Window.sleep(20000);
 
+		// create an arraylist of players
 		ArrayList<Player> players = new ArrayList<Player>();
 
 		for (int i = 0; i < names.length; i++) {
@@ -58,6 +56,7 @@ public class SoccerGame {
 		while (true) {
 			drawBackground();
 
+			// draw and move yourself
 			p.draw();
 			p.move();
 
@@ -66,6 +65,7 @@ public class SoccerGame {
 			Data.write(myName + "y", p.y);
 			Data.write(myName + "team", p.team);
 
+			// draw each player
 			for (int i = 0; i < players.size(); i++) {
 				// get the players data from the server
 				String name = players.get(i).name;
@@ -78,15 +78,14 @@ public class SoccerGame {
 				players.get(i).x = x;
 				players.get(i).y = y;
 				players.get(i).team = team;
-
+				
 				players.get(i).draw();
 			}
 
-			// move and draw the ball
-
+			
+			// read ball data from server
 			b.x = Data.read("ballx");
 			b.y = Data.read("bally");
-			System.out.println(b.x + " " + b.y);
 
 			b.draw();
 
@@ -99,13 +98,15 @@ public class SoccerGame {
 				Data.write("ballx", b.x);
 				Data.write("bally", b.y);
 			}
-
+			
+			// if ball touches boundaries bounce back
 			if (b.checkBoundaries()) {
 				b.move();
 				Data.write("ballx", b.x);
 				Data.write("bally", b.y);
 			}
-			
+
+			// check if red team scores
 			if (b.redScores()) {
 				score1++;
 				Data.write("score1", score1);
@@ -115,6 +116,7 @@ public class SoccerGame {
 				p.reset();
 			}
 			
+			// check if blue team scores
 			if (b.blueScores()) {
 				score2++;
 				Data.write("score2", score2);
@@ -123,22 +125,27 @@ public class SoccerGame {
 				Data.write("bally", b.y);
 				p.reset();
 			}
-			
+
+			// read scores for both teams
 			score1 = Data.read("score1");
 			score2 = Data.read("score2");
 			
+			// check if team 1 wins
 			if (score1 >= max) {
 				winner = 1;
 				Data.write("winner", winner);
 			}
-			
+
+			// check if team 2 wins
 			if (score2 >= max) {
 				winner = 2;
 				Data.write("winner", winner);
 			}
 			
+			// read winner from server
 			winner = Data.read("winner");
 			
+			// display winner
 			if (winner == 1) {
 				Window.out.color(255, 0, 0);
 				Window.out.print("RED TEAM WINS", 250, 250);
@@ -159,6 +166,7 @@ public class SoccerGame {
 				System.exit(0);
 			}
 			
+			// print out the score
 			Window.out.color("black");
 			Window.out.font("arial", 30);
 			Window.out.print("RED: " + score1, 10, 30);
