@@ -1,5 +1,3 @@
-package advanced1;
-
 import apcs.Window;
 
 public class Game2048 {
@@ -325,7 +323,7 @@ public class Game2048 {
 				if (grid[x][y] != 0) {
 
 					if (grid[x][y] <= 8) {
-						Window.out.color(grid[x][y] * 30, grid[x][y] * 20, grid[x][y] * 10);
+						Window.out.color(grid[x][y] * 30, grid[x][y] * 20, grid[x][y] * 30);
 						Window.out.square(x * 150 + 75, y * 150 + 75, 145);
 					}
 
@@ -335,6 +333,14 @@ public class Game2048 {
 					}
 					else if (grid[x][y] <= 128) {
 						Window.out.color(grid[x][y], grid[x][y] * 2 - 1, grid[x][y]);
+						Window.out.square(x * 150 + 75, y * 150 + 75, 145);
+					}
+					else if (grid[x][y] <= 1024) {
+						Window.out.color(grid[x][y] / 3, grid[x][y] / 5, grid[x][y] * 2);
+						Window.out.square(x * 150 + 75, y * 150 + 75, 145);
+					}
+					else if (grid[x][y] == 2048) {
+						Window.out.randomColor();
 						Window.out.square(x * 150 + 75, y * 150 + 75, 145);
 					}
 
