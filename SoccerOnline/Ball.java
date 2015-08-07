@@ -66,12 +66,12 @@ public class Ball {
 	
 	// team 2 scores
 	public boolean blueScores() {
-		return x < -radius;
+		return x < 0 && Math.abs(y - Window.height() / 2) <= 75;
 	}
 	
 	// team 1 scores
 	public boolean redScores() {
-		return x > Window.width() + radius;
+		return x > Window.width() && Math.abs(y - Window.height() / 2) <= 75;
 	}
 	
 	public void reset() {
