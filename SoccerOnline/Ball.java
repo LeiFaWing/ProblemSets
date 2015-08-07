@@ -64,6 +64,21 @@ public class Ball {
 		return false;
 	}
 	
+	// team 2 scores
+	public boolean blueScores() {
+		return x < 0;
+	}
+	
+	// team 1 scores
+	public boolean redScores() {
+		return x > Window.width();
+	}
+	
+	public void reset() {
+		x = Window.width() / 2;
+		y = Window.height() / 2;
+	}
+	
 	
 }
 
