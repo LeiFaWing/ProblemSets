@@ -8,13 +8,14 @@ public class Game {
 
 	public static void main(String[] args) {
 
-		Window.size(700, 700);
+		Window.size(1000, 1000);
 
 		int time = 1;
 
 		Player p = new Player("steve");
 
 		ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+		ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 		for (int i = 0; i < 5; i++) {
 			obstacles.add(new Obstacle());
@@ -30,6 +31,29 @@ public class Game {
 
 			p.draw();
 			p.move();
+			
+			if (Window.mouse.clicked()) {
+				bullets.add(new Bullet(p.x, p.y, Window.mouse.getX(), Window.mouse.getY()));
+			}
+			
+			for (int i = 0; i < bullets.size(); i++) {
+				bullets.get(i).draw();
+				bullets.get(i).move();
+				
+				if (bullets.get(i).outside()) {
+					bullets.remove(i);
+				}
+			}
+			
+			for (int i = 0; i < bullets.size(); i++) {
+				for (int j = 0; j < obstacles.size(); j++) {
+					if (bullets.get(i).collides(obstacles.get(j))) {
+						bullets.remove(i);
+						obstacles.remove(j);
+						break;
+					}
+				}
+			}
 
 			for (int i = 0; i < obstacles.size(); i++) {
 				obstacles.get(i).draw();
